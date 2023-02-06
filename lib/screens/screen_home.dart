@@ -10,9 +10,9 @@ import 'package:student_app/screens/screen_search%20_student.dart';
 import 'package:student_app/screens/screen_student_profile.dart';
 import 'package:student_app/screens/screen_update_student.dart';
 import 'package:student_app/widgets/text_filed.dart';
-// ignore: prefer_typing_uninitialized_variables
 
-// ignore: must_be_immutable
+import '../widgets/palletes.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
@@ -26,7 +26,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: scaffoldBG,
       appBar: AppBar(
-        title: const Center(child: Text('STUDENTS LIST',style: TextStyle(fontWeight: FontWeight.bold),)),
+        title: const Center(
+            child: Text(
+          'STUDENTS LIST',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -36,7 +40,14 @@ class HomeScreen extends StatelessWidget {
               },
               icon: const Icon(Icons.search))
         ],
-        backgroundColor: scaffoldBG,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+                colors: [Pallet.gradient1, Pallet.gradient2, Pallet.gradient3],
+                begin: Alignment.bottomLeft),
+            borderRadius: BorderRadius.circular(7),
+          ),
+        ),
       ),
       body: SafeArea(
         child: Obx(
@@ -62,36 +73,40 @@ class HomeScreen extends StatelessWidget {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 5,
                               blurRadius: 7,
-                              offset: const Offset(0,3), // changes position of shadow
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
                             )
                           ],
                         ),
                         child: Slidable(
-                         direction: Axis.horizontal,
+                          direction: Axis.horizontal,
                           key: Key(data.id.toString()),
                           startActionPane: ActionPane(
                               motion: const ScrollMotion(),
                               children: [
                                 IconButton(
-                                    onPressed: () => Get.to(() => EditStudent(data: data, editorClicked: true)),
+                                    onPressed: () => Get.to(() => EditStudent(
+                                        data: data, editorClicked: true)),
                                     icon: const Icon(Icons.edit,
                                         color: Colors.amber)),
                                 IconButton(
                                     onPressed: () {
                                       Get.defaultDialog(
-                                        title: "Delete",
-                                        titleStyle:
-                                            const TextStyle(color: Colors.red),
-                                        middleText: "Are you sure ?",
-                                        confirm: TextButton(
-                                            onPressed: () {
-                                              screenController.deleteData(data.id!);
-                                              Get.back();
-                                            },
-                                            child: const Text("Yes")),
-                                        cancel: TextButton(
-                                            onPressed: () =>Get.back(),
-                                            child: const Text("No")));},
+                                          title: "Delete",
+                                          titleStyle: const TextStyle(
+                                              color: Colors.red),
+                                          middleText: "Are you sure ?",
+                                          confirm: TextButton(
+                                              onPressed: () {
+                                                screenController
+                                                    .deleteData(data.id!);
+                                                Get.back();
+                                              },
+                                              child: const Text("Yes")),
+                                          cancel: TextButton(
+                                              onPressed: () => Get.back(),
+                                              child: const Text("No")));
+                                    },
                                     icon: const Icon(Icons.delete_forever,
                                         color: Colors.red)),
                               ]),
@@ -101,27 +116,32 @@ class HomeScreen extends StatelessWidget {
                               backgroundImage: MemoryImage(images),
                             ),
                             title: Text(data.name.toUpperCase(),
-                              style: const TextStyle(fontSize: 20)),
-                            onTap: () => Get.to(() => ProfileStudent(data: data)),
+                                style: const TextStyle(fontSize: 20)),
+                            onTap: () =>
+                                Get.to(() => ProfileStudent(data: data)),
                           ),
                         ),
                       ),
                     );
                   },
-                  separatorBuilder: (ctx, index) =>const Divider(height: 1),
+                  separatorBuilder: (ctx, index) => const Divider(height: 1),
                   itemCount: studentModelList.length),
             );
           },
         ),
       ),
-      floatingActionButtonLocation:FloatingActionButtonLocation.miniCenterFloat ,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => Addstudent()),
-        backgroundColor: Colors.black,
-        tooltip: 'Add New',
-        child: const Icon(
-          Icons.add,
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text(
+          'add',
+          style: TextStyle(color: Colors.black),
         ),
+        icon: const Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
+        onPressed: () => Get.to(() => Addstudent()),
+        backgroundColor: Colors.white,
+        tooltip: 'Add New',
       ),
     );
   }

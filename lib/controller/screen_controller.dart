@@ -9,59 +9,60 @@ import 'package:student_app/db/models/student_model.dart';
 RxList<StudentModel> searchData = <StudentModel>[].obs;
 RxList<StudentModel> studentModelList = <StudentModel>[].obs;
 
-class ScreenController extends GetxController  {
+class ScreenController extends GetxController {
+  Future<void> addstudentData(StudentModel value) async {
+    final studentDataBase =
+        await Hive.openBox<StudentModel>('Student_Data_Base');
+    final id = await studentDataBase.add(value);
+    value.id = id;
+    studentDataBase.put(value.id, value);
+    studentModelList.clear();
+    studentModelList.addAll(studentDataBase.values);
+  }
 
+  Future<void> allStudentslist() async {
+    final studentDataBase =
+        await Hive.openBox<StudentModel>('Student_Data_Base');
+    studentModelList.clear();
+    studentModelList.addAll(studentDataBase.values);
+  }
 
+  void deleteData(int id) async {
+    final studentDataBase =
+        await Hive.openBox<StudentModel>('Student_Data_Base');
+    await studentDataBase.delete(id);
+    allStudentslist();
+  }
 
-Future<void> addstudentData(StudentModel value) async {
-  final studentDataBase = await Hive.openBox<StudentModel>('Student_Data_Base');
-  final id = await studentDataBase.add(value);
-  value.id = id;
-  studentDataBase.put(value.id, value);
-  studentModelList.clear();
-  studentModelList.addAll(studentDataBase.values);
-}
+  updateData(StudentModel value) async {
+    final studentDataBase =
+        await Hive.openBox<StudentModel>('Student_Data_Base');
+    await studentDataBase.put(value.id, value);
+    allStudentslist();
+  }
 
-Future<void> allStudentslist() async {
-  final studentDataBase = await Hive.openBox<StudentModel>('Student_Data_Base');
-  studentModelList.clear();
-  studentModelList.addAll(studentDataBase.values);
-}
-
-void deleteData(int id) async {
-  final studentDataBase = await Hive.openBox<StudentModel>('Student_Data_Base');
-  await studentDataBase.delete(id);
-  allStudentslist();
-}
-
-updateData(StudentModel value) async {
-  final studentDataBase = await Hive.openBox<StudentModel>('Student_Data_Base');
-  await studentDataBase.put(value.id, value);
-  allStudentslist();
-}
-
-searchdata(String value) {
-  searchData.clear();
-  for (var items in studentModelList) {
-    if (items.name.toString().toLowerCase().contains(value.toLowerCase())) {
-      StudentModel findings = StudentModel(
-        name: items.name,
-        age: items.age,
-        place: items.place,
-        batch: items.batch,
-        image: items.image,
-        regNo: items.regNo,
-      );
-      searchData.add(findings);
+  searchdata(String value) {
+    searchData.clear();
+    for (var items in studentModelList) {
+      if (items.name.toString().toLowerCase().contains(value.toLowerCase())) {
+        StudentModel findings = StudentModel(
+          name: items.name,
+          age: items.age,
+          place: items.place,
+          batch: items.batch,
+          image: items.image,
+          regNo: items.regNo,
+        );
+        searchData.add(findings);
+      }
     }
   }
-}
+
   File?
-    image; //File is a reference to a file on  system storatge (path of the file)
-String stringOfimg = '';
+      image; //File is a reference to a file on  system storatge (path of the file)
+  String stringOfimg = '';
 
-
- pickimage() async {
+  pickimage() async {
     final galleryImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (galleryImage == null) {

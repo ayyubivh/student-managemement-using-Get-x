@@ -28,8 +28,8 @@ class SearchPage extends StatelessWidget {
                     child: CupertinoSearchTextField(
                       controller: searchController,
                       onChanged: (value) {
-                        // screenController.searchValue=value.obs;
-                       screenController.searchdata(value);
+                        // screenController.searchValue = value.obs;
+                        screenController.searchdata(value);
                       },
                     ),
                   ),
@@ -52,25 +52,27 @@ class SearchPage extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                              color: Colors.white,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ListTile(
-                              leading: CircleAvatar(
-                                radius: 35,
-                                backgroundImage: MemoryImage(proIMG),
+                                leading: CircleAvatar(
+                                  radius: 35,
+                                  backgroundImage: MemoryImage(proIMG),
+                                ),
+                                title: Text(data.name.toUpperCase(),
+                                    style: const TextStyle(fontSize: 20)),
+                                onTap: () =>
+                                    Get.to(() => ProfileStudent(data: data)),
                               ),
-                              title: Text(data.name.toUpperCase(),
-                                style: const TextStyle(fontSize: 20)),
-                              onTap: () => Get.to(() => ProfileStudent(data: data)),
-                                                      ),
                             ),
                           );
                         } else {
                           return Container();
                         }
                       },
-                      separatorBuilder: (ctx, index)=> const Divider(height: 5),
+                      separatorBuilder: (ctx, index) =>
+                          const Divider(height: 5),
                       itemCount: searchData.length),
                 );
               },

@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:student_app/db/models/student_model.dart';
 import 'package:student_app/screens/screen_home.dart';
 
-Future<void> main(List<String> args) async {
+Future<void> main() async {
   await Hive.initFlutter();
   if (!Hive.isAdapterRegistered(StudentModelAdapter().typeId)) {
     Hive.registerAdapter(StudentModelAdapter());

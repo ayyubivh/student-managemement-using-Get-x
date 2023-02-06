@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:student_app/db/models/student_model.dart';
 import 'package:student_app/widgets/text_filed.dart';
 
+import '../widgets/palletes.dart';
+
 class ProfileStudent extends StatelessWidget {
   const ProfileStudent({Key? key, required this.data}) : super(key: key);
 
@@ -16,7 +18,14 @@ class ProfileStudent extends StatelessWidget {
       backgroundColor: scaffoldBG,
       appBar: AppBar(
         title: const Text('Student Details'),
-        backgroundColor: scaffoldBG,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+                colors: [Pallet.gradient1, Pallet.gradient2, Pallet.gradient3],
+                begin: Alignment.bottomLeft),
+            borderRadius: BorderRadius.circular(7),
+          ),
+        ),
       ),
       body: SafeArea(
           child: Container(

@@ -1,10 +1,13 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:student_app/controller/screen_controller.dart';
 import 'package:student_app/db/models/student_model.dart';
 import 'package:student_app/screens/screen_home.dart';
 import 'package:student_app/widgets/text_filed.dart';
+
+import '../widgets/palletes.dart';
 
 class Addstudent extends StatelessWidget {
   Addstudent({Key? key, this.data}) : super(key: key);
@@ -23,61 +26,104 @@ class Addstudent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: scaffoldBG,
-      appBar: AppBar(
-        title: const Text('Add student details'),
-        backgroundColor:scaffoldBG,
-      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Form(
-            key: formvalidationKey,
-            child: ListView(
-              children: [
-                GetBuilder<ScreenController>(builder: (controller) {
-                  return Center(
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                  "assets/images/blank-profile-picture-973460_1280.webp"))),
-                      child: screenController.stringOfimg.trim().isNotEmpty
-                          ? CircleAvatar(
-                              backgroundImage: MemoryImage(const Base64Decoder()
-                                  .convert(screenController.stringOfimg)),
-                            )
-                          : Container(),
-                    ),
-                  );
-                }),
-                IconButton(
-                    onPressed: () async {
-                      screenController.pickimage();
-                    },
-                    icon:
-                        const Icon(Icons.camera, color: Colors.red, size: 20)),
-                const SizedBox(height: 20),
-                Textfeild(regController: _nameController, hintText: "Name",keyboardType: TextInputType.name,),
-                Textfeild(regController: _ageController, hintText: "Age",keyboardType: TextInputType.number),
-                Textfeild(regController: _placeController, hintText: "Place",keyboardType: TextInputType.text),
-                Textfeild(regController: _batchController, hintText: "Batch",keyboardType: TextInputType.text),
-                Textfeild(regController: _regController, hintText: "Reg No",keyboardType: TextInputType.number,),
-                Center(
-                  child: ElevatedButton.icon(
-                      onPressed: () {
-                        if (formvalidationKey.currentState!.validate()) {
-                          addbuttonclick(context);
-                        }
+        child: Column(children: [
+          Image.asset('assets/images/signin_balls.png'),
+          const Text(
+            ' Add User ',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
+          ),
+          Expanded(
+            child: Form(
+              key: formvalidationKey,
+              child: ListView(
+                children: [
+                  GetBuilder<ScreenController>(builder: (controller) {
+                    return Center(
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    "assets/images/signin_balls.png"))),
+                        child: screenController.stringOfimg.trim().isNotEmpty
+                            ? CircleAvatar(
+                                backgroundImage: MemoryImage(
+                                    const Base64Decoder()
+                                        .convert(screenController.stringOfimg)),
+                              )
+                            : const CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    'assets/images/blank-profile-picture-973460_1280.webp'),
+                              ),
+                      ),
+                    );
+                  }),
+                  IconButton(
+                      onPressed: () async {
+                        screenController.pickimage();
                       },
-                      icon: const Icon(Icons.add),
-                      label: const Text('ADD')),
-                )
-              ],
+                      icon: const Icon(Icons.camera,
+                          color: Colors.grey, size: 30)),
+                  const SizedBox(height: 10),
+                  Textfeild(
+                    regController: _nameController,
+                    hintText: "Name",
+                    keyboardType: TextInputType.name,
+                  ),
+                  Textfeild(
+                      regController: _ageController,
+                      hintText: "Age",
+                      keyboardType: TextInputType.number),
+                  Textfeild(
+                      regController: _placeController,
+                      hintText: "Place",
+                      keyboardType: TextInputType.text),
+                  Textfeild(
+                      regController: _batchController,
+                      hintText: "Batch",
+                      keyboardType: TextInputType.text),
+                  Textfeild(
+                    regController: _regController,
+                    hintText: "Reg No",
+                    keyboardType: TextInputType.number,
+                  ),
+                  AddButton(context)
+                ],
+              ),
             ),
+          ),
+        ]),
+      ),
+    );
+  }
+
+// add button
+  Center AddButton(BuildContext context) {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+              colors: [Pallet.gradient1, Pallet.gradient2, Pallet.gradient3],
+              begin: Alignment.bottomLeft),
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: ElevatedButton(
+          onPressed: () {
+            if (formvalidationKey.currentState!.validate()) {
+              addbuttonclick(context);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: const Size(337, 53),
+              backgroundColor: Colors.transparent),
+          child: const Text(
+            'Add',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
           ),
         ),
       ),

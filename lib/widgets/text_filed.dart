@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'palletes.dart';
+
 class Textfeild extends StatelessWidget {
   const Textfeild({
     Key? key,
@@ -17,20 +19,36 @@ class Textfeild extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextFormField(
-          keyboardType: keyboardType,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'This field is required';
-            } else {
-              return null;
-            }
-          },
-          controller: _regController,
-          decoration: InputDecoration(
-              hintText: hintText,
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 340),
+          child: TextFormField(
+            style: TextStyle(color: Colors.white),
+            keyboardType: keyboardType,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'This field is required';
+              } else {
+                return null;
+              }
+            },
+            controller: _regController,
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(20),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Pallet.borderColor,
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Pallet.gradient2,
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                hintText: hintText,
+                hintStyle: const TextStyle(color: Colors.white54)),
+          ),
         ),
         const SizedBox(
           height: 10,
@@ -40,4 +58,4 @@ class Textfeild extends StatelessWidget {
   }
 }
 
-const scaffoldBG = Colors.amber;
+const scaffoldBG = Colors.black;
